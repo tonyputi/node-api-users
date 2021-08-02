@@ -1,0 +1,17 @@
+{
+  "name": "cv_node_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "Filippo Sallemi <filippo@sallemi.it>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "mongoose": "^5.13.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
