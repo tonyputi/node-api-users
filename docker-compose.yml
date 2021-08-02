@@ -1,25 +1,55 @@
 version: '3.8'
 services:
-    app:
-        build: ./
-        container_name: 'node-app'
+    api-users:
+        build: .
+        image: node-api-users:latest
+        container_name: 'node-api-users'
+        environment:
+            - PORT=80
+            - MONGODB_URL=mongodb://mongodb:27017
         restart: unless-stopped
         working_dir: /app
         volumes:
+            - node-modules:/app/node_modules
             - ./src:/app
         ports:
             - '${HTTP_PORT:-8080}:80'
+        depends_on: ['mongodb', 'mariadb']
     mongodb:
         image: mongo
-        container_name: 'node-mongodb'
+        container_name: 'node-api-mongodb'
         restart: unless-stopped
         working_dir: /app
         volumes:
-            - 'node-mongodb:/data/db'
+            - 'node-api-mongodb:/data/db'
         ports:
             - '${MONGO_PORT:-27017}:27017'
+    mariadb:
+        image: 'mariadb:latest'
+        container_name: node-api-mariadb
+        restart: unless-stopped
+        ports:
+            - '${DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-docker}'
+            MYSQL_DATABASE: '${DB_DATABASE:-api}'
+            MYSQL_USER: '${DB_USERNAME:-docker}'
+            MYSQL_PASSWORD: '${DB_PASSWORD:-docker}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'node-api-mariadb:/var/lib/mysql'
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+            retries: 3
+            timeout: 5s
 
 volumes:
-    node-mongodb:
-        name: node-mongodb
+    node-modules:
+        name: node-modules
+        driver: local
+    node-api-mongodb:
+        name: node-api-mongodb
+        driver: local
+    node-api-mariadb:
+        name: node-api-mariadb
         driver: local

@@ -1,11 +1,11 @@
-FROM node:14
-
-# WORKDIR /app
-
-COPY src/ .
+FROM node:alpine
 
 RUN npm install -g nodemon
+
+WORKDIR /app
+
+COPY ./src/ .
 RUN npm install
 
-EXPOSE 8080
+#EXPOSE 80
 CMD ["nodemon", "server.js"]

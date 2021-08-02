@@ -2,10 +2,9 @@
 
 var express = require('express'),
   app = express(),
-  port = process.env.PORT || 3000,
+  port = process.env.PORT || 80,
 
-
-  User = require('./api/models/userModel'),
+  User = require('./models/userModel'),
   bodyParser = require('body-parser'),
   jsonwebtoken = require("jsonwebtoken");
 
@@ -17,7 +16,7 @@ const option = {
 };
 
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect('mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb', option).then(function(){
+mongoose.connect('mongodb://mongodb:27017/?compressors=disabled&gssapiServiceName=mongodb', option).then(function(){
     //connected successfully
 }, function(err) {
     //err handle
@@ -38,7 +37,7 @@ app.use(function(req, res, next) {
     next();
   }
 });
-var routes = require('./api/routes/userRoutes');
+var routes = require('./routes/userRoutes');
 routes(app);
 
 app.use(function(req, res) {
