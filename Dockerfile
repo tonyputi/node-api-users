@@ -4,8 +4,9 @@ RUN npm install -g nodemon
 
 WORKDIR /app
 
-COPY ./src/ .
+COPY package*.json ./
 RUN npm install
 
-#EXPOSE 80
-CMD ["nodemon", "server.js"]
+COPY . ./
+
+CMD ["npm", "run", "dev"]
