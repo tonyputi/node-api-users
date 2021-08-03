@@ -28,6 +28,6 @@ const UserSchema: Schema = new Schema({
 
 UserSchema.method('checkPassword', function (password: string) : boolean {
   return bcrypt.compareSync(password, this.password);
-})
+});
 
 export default model<IUser>('User', UserSchema);

@@ -1,4 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
 import config from "../../config/config";
 
 const sequelize = new Sequelize(config.postgres.uri);
@@ -10,14 +11,22 @@ const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        set(value: string) {
+            this.setDataValue('password', bcrypt.hashSync(value, 10))
+        }
     }
 }, {
     
 });
+
+User.prototype.checkPassword = function (password: string) : boolean {
+    return bcrypt.compareSync(password, this.password);
+}
 
 export default User;
