@@ -1,7 +1,7 @@
 'use strict';
 
 import express from 'express';
-import controller from '../controllers/auth';
+import controller from '../../controllers/postgres/auth';
 
 const router = express.Router();
 

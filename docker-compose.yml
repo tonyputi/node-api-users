@@ -16,7 +16,7 @@ services:
             - ./package-lock.json:/app/package-lock.json
         ports:
             - '${HTTP_PORT:-8080}:80'
-#        depends_on: ['mongodb', 'postgres']
+        depends_on: ['mongodb', 'postgres']
     mongodb:
         image: mongo
         container_name: 'node-api-mongodb'
@@ -26,22 +26,22 @@ services:
             - 'node-api-mongodb:/data/db'
         ports:
             - '${MONGO_PORT:-27017}:27017'
-#    postgres:
-#        image: 'postgres:alpine'
-#        container_name: node-api-postgres
-#        restart: unless-stopped
-#        ports:
-#            - '${POSTGRES_PORT:-5432}:5432'
-#        environment:
-#            POSTGRES_PASSWORD: '${DB_PASSWORD:-docker}'
-#            POSTGRES_DB: '${DB_DATABASE:-api}'
-#            POSTGRES_USER: '${DB_USERNAME:-docker}'
-#        volumes:
-#            - 'node-api-postgres:/var/lib/postgresql/data'
-#        healthcheck:
-#            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD:-docker}" ]
-#            retries: 3
-#            timeout: 5s
+    postgres:
+        image: 'postgres:alpine'
+        container_name: node-api-postgres
+        restart: unless-stopped
+        ports:
+            - '${POSTGRES_PORT:-5432}:5432'
+        environment:
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-docker}'
+            POSTGRES_DB: '${DB_DATABASE:-api}'
+            POSTGRES_USER: '${DB_USERNAME:-docker}'
+        volumes:
+            - 'node-api-postgres:/var/lib/postgresql/data'
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD:-docker}" ]
+            retries: 3
+            timeout: 5s
 
 volumes:
     node-api-mongodb:

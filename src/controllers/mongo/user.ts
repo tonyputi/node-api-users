@@ -2,7 +2,7 @@
 
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import User from '../models/user';
+import User from '../../models/mongo/user';
 
 const index = (req: Request, res: Response, next: NextFunction) => {
     User.find()

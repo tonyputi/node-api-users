@@ -1,6 +1,6 @@
 'use strict';
 
-import IUser from '../interfaces/user';
+import IUser from '../../interfaces/user';
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 

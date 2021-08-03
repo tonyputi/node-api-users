@@ -3,21 +3,25 @@
  */
 
 import express from "express";
-// import bodyParser from 'body-parser';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
+import { Sequelize } from 'sequelize';
+
 import cors from "cors";
 import helmet from "helmet";
 
 import config from "./config/config";
 import mongoose from "mongoose"
-import authRoutes from "./routes/auth"
-import userRoutes from "./routes/user"
+import mongoAuthRoutes from "./routes/mongo/auth"
+import mongoUserRoutes from "./routes/mongo/user"
+import postgresAuthRoutes from "./routes/postgres/auth"
+import postgresUserRoutes from "./routes/postgres/user"
 
 /**
  * App Variables
  */
 
 const app = express();
+const sequelize = new Sequelize(config.postgres.uri);
 
 /**
  *  App Configuration
@@ -31,15 +35,19 @@ app.use(express.json());
  * Server Activation
  */
 
+sequelize.authenticate().then(result => {
+    console.info('Successful connect to mongodb instance')
+}).catch(err => {
+    console.error(`An error occurred connecting to mongodb instance ${err}`)
+}).finally(() => {
+    sequelize.close();
+});
+
 mongoose.connect(config.mongo.uri, config.mongo.options).then(result => {
     console.info('Successful connect to mongodb instance')
 }).catch(err => {
     console.error(`An error occurred connecting to mongodb instance ${err}`)
 });
-
-/** Parse the body of the request */
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 
 /** Log the request */
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -52,8 +60,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-app.use('/', authRoutes)
-app.use('/users', userRoutes)
+app.use('/mongo', mongoAuthRoutes)
+app.use('/mongo/users', mongoUserRoutes)
+app.use('/postgres', postgresAuthRoutes)
+app.use('/postgres/users', postgresUserRoutes)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).send({ url: req.originalUrl + ' not found' })

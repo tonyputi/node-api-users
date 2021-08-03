@@ -2,6 +2,18 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const POSTGRES_USERNAME = process.env.POSTGRES_USERNAME || 'docker';
+const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD || 'docker';
+const POSTGRES_HOST = process.env.POSTGRES_HOST || `postgres:5432/api`;
+
+const POSTGRES = {
+    host: POSTGRES_HOST,
+    password: POSTGRES_PASSWORD,
+    username: POSTGRES_USERNAME,
+    uri: `postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}`
+};
+
+
 const MONGO_USERNAME = process.env.MONGO_USERNAME || 'docker';
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'docker';
 const MONGO_HOST = process.env.MONGO_HOST || `mongodb:27017/api`;
@@ -21,7 +33,7 @@ const MONGO = {
     password: MONGO_PASSWORD,
     username: MONGO_USERNAME,
     options: MONGO_OPTIONS,
-    // url: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}`
+    // uri: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}`
     uri: `mongodb://${MONGO_HOST}`
 };
 
@@ -38,6 +50,7 @@ const JWT = {
 }
 
 const config = {
+    postgres: POSTGRES,
     mongo: MONGO,
     server: SERVER,
     jwt: JWT

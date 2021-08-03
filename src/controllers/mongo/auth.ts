@@ -2,8 +2,8 @@
 
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
-import config from "../config/config";
+import User from '../../models/mongo/user';
+import config from "../../config/config";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
     let { email, password } = req.body;

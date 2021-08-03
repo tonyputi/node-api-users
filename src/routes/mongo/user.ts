@@ -1,8 +1,8 @@
 'use strict';
 
 import express from "express";
-import controller from '../controllers/user';
-import authenticated from '../middlewares/authenticated';
+import controller from '../../controllers/mongo/user';
+import authenticated from '../../middlewares/authenticated';
 
 const router = express.Router();
 
