@@ -31,7 +31,7 @@ The application is making use the following frameworks/libraries:
 - [Mongoose](https://mongoosejs.com) to interact with mongodb;
 - [Sequelize](https://sequelize.org) to interact with postgres;
 - [node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js) to hash user password;
-- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) to generate and verify jwt tokens;
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) to generate and verify jwt tokens.
 
 ## Requirements
 
