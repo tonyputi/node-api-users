@@ -6,12 +6,10 @@ import authenticated from '../middlewares/authenticated';
 
 const router = express.Router();
 
-router.use('/', authenticated);
-
-router.get('/', controller.index);
+router.get('/', authenticated, controller.index);
 router.post('/', controller.create);
-router.get('/:id', controller.read);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+router.get('/:id', authenticated, controller.read);
+router.put('/:id', authenticated, controller.update);
+router.delete('/:id', authenticated, controller.destroy);
 
 export = router;

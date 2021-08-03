@@ -26,7 +26,7 @@ const UserSchema: Schema = new Schema({
   timestamps: true
 });
 
-UserSchema.method('checkPassword', function (password: String) {
+UserSchema.method('checkPassword', function (password: String) : boolean {
   return bcrypt.compareSync(password, this.password);
 })
 
