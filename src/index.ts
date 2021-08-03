@@ -3,31 +3,19 @@
  */
 
 import express from "express";
-// import cors from "cors";
-// import helmet from "helmet";
+// import bodyParser from 'body-parser';
+import { NextFunction, Request, Response } from 'express';
+import cors from "cors";
+import helmet from "helmet";
 
 import config from "./config/config";
 import mongoose from "mongoose"
+import authRoutes from "./routes/auth"
 import userRoutes from "./routes/user"
-
-// dotenv.config();
 
 /**
  * App Variables
  */
-
-if (!process.env.PORT) {
-    process.exit(1);
-}
-
-const PORT: number = parseInt(process.env.PORT as string, 10);
-const MONGO_URI: string = process.env.MONGODB_URI;
-const MONGO_OPTIONS = {
-    socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000,
-    useFindAndModify: false
-};
 
 const app = express();
 
@@ -35,27 +23,42 @@ const app = express();
  *  App Configuration
  */
 
-// app.use(helmet());
-// app.use(cors());
+app.use(helmet());
+app.use(cors());
 app.use(express.json());
 
 /**
  * Server Activation
  */
 
-mongoose.connect(MONGO_URI, MONGO_OPTIONS).then(result => {
+mongoose.connect(config.mongo.uri, config.mongo.options).then(result => {
     console.info('Successful connect to mongodb instance')
 }).catch(err => {
     console.error(`An error occurred connecting to mongodb instance ${err}`)
 });
 
-app.listen(PORT, () => {
-    console.info(`Listening on port ${PORT}`);
+/** Parse the body of the request */
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+
+/** Log the request */
+app.use((req: Request, res: Response, next: NextFunction) => {
+    console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+
+    res.on('finish', () => {
+        console.info(`METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`);
+    })
+    
+    next();
 });
 
-app.use("/users", userRoutes)
-// userRoutes(app)
+app.use('/', authRoutes)
+app.use('/users', userRoutes)
 
-// app.get('/', function(req, res) {
-//     res.json({"message": "unauthenticated"});
-// });
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.status(404).send({ url: req.originalUrl + ' not found' })
+});
+
+app.listen(config.server.port, () => {
+    console.info(`Server is running ${config.server.hostname}:${config.server.port}`);
+});

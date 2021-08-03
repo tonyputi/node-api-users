@@ -2,19 +2,19 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const MONGO_USERNAME = process.env.MONGO_USERNAME || 'docker';
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'docker';
+const MONGO_HOST = process.env.MONGO_HOST || `mongodb:27017/api`;
 const MONGO_OPTIONS = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
     socketTimeoutMS: 30000,
     keepAlive: true,
     poolSize: 50,
-    autoIndex: false,
+    autoIndex: true,
     retryWrites: false
 };
-
-const MONGO_USERNAME = process.env.MONGO_USERNAME || 'docker';
-const MONGO_PASSWORD = process.env.MONGO_USERNAME || 'docker';
-const MONGO_HOST = process.env.MONGO_URL || `mongodb:27017/api`;
 
 const MONGO = {
     host: MONGO_HOST,
@@ -22,7 +22,7 @@ const MONGO = {
     username: MONGO_USERNAME,
     options: MONGO_OPTIONS,
     // url: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}`
-    url: `mongodb://${MONGO_HOST}`
+    uri: `mongodb://${MONGO_HOST}`
 };
 
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'localhost';
@@ -33,9 +33,14 @@ const SERVER = {
     port: SERVER_PORT
 };
 
+const JWT = {
+    secret: 'your-very-strong-secret'
+}
+
 const config = {
     mongo: MONGO,
-    server: SERVER
+    server: SERVER,
+    jwt: JWT
 };
 
 export default config;

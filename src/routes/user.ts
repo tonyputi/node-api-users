@@ -2,13 +2,11 @@
 
 import express from "express";
 import controller from '../controllers/user';
+import authenticated from '../middlewares/authenticated';
 
-const router = express.Router()
+const router = express.Router();
 
-router.use(function timeLog(req, res, next) {
-    console.log('Time: ', Date.now());
-    next();
-});
+router.use('/', authenticated);
 
 router.get('/', controller.index);
 router.post('/', controller.create);
