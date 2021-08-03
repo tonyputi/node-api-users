@@ -1,21 +1,31 @@
 'use strict';
 
-import { Schema, model, connect } from 'mongoose';
+import IUser from '../interfaces/user';
+import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 
-interface User {
-  name: string;
-  email: string;
-  password: string;
-  created_at?: Date;
-}
-
-const schema = new Schema<User>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  password: String
+const UserSchema: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: true,
+    set: (value: String) => bcrypt.hashSync(value, 10)
+  }
+}, {
+  timestamps: true
 });
 
-export default model<User>('User', schema);
+export default model<IUser>('User', UserSchema);
 
 // var mongoose = require('mongoose'),
 //   bcrypt = require('bcrypt'),
