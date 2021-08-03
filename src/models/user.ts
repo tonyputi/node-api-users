@@ -20,13 +20,13 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true,
-    set: (value: String) => bcrypt.hashSync(value, 10)
+    set: (value: string) => bcrypt.hashSync(value, 10)
   }
 }, {
   timestamps: true
 });
 
-UserSchema.method('checkPassword', function (password: String) : boolean {
+UserSchema.method('checkPassword', function (password: string) : boolean {
   return bcrypt.compareSync(password, this.password);
 })
 

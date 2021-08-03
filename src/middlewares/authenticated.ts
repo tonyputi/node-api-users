@@ -3,7 +3,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from "../config/config";
-import IUser from '../interfaces/user';
 
 export default (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers['authorization'];
@@ -13,7 +12,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     }
 
     const token = authorization.split(' ')[1];
-    jwt.verify(token, config.jwt.secret, function(err: any, user: IUser) {
+    jwt.verify(token, config.jwt.secret, function(err: any, user: any) {
         if (err) {
             return res.sendStatus(403);
         }
