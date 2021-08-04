@@ -23,6 +23,8 @@ taking care about the code style, the quality of the code and the organization i
 ├── package-lock.json
 ├── postman_collection.json
 ├── README.md
+├── docs
+│   └── index.html
 ├── src
 │   ├── config
 │   │   └── config.ts
