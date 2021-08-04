@@ -4,6 +4,7 @@ import IUser from '../../interfaces/user';
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+/** Mongodb user model */
 const UserSchema: Schema = new Schema({
   name: {
     type: String,
@@ -20,12 +21,23 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
     set: (value: string) => bcrypt.hashSync(value, 10)
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, {
   timestamps: true
 });
 
+/**
+ * Check if the give password is matching the one present on the user model
+ * @param {string} password - the password that must be checked
+ * @return {boolean}
+ */
 UserSchema.method('checkPassword', function (password: string) : boolean {
   return bcrypt.compareSync(password, this.password);
 });

@@ -3,6 +3,14 @@
 import { NextFunction, Request, Response } from 'express';
 import User from '../../models/postgres/user';
 
+/**
+ * Handle user index requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const index = (req: Request, res: Response, next: NextFunction) => {
     return User.sync().then(() => {
         return User.findAll().then(users => {
@@ -21,6 +29,14 @@ const index = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+/**
+ * Handle user create requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const create = (req: Request, res: Response, next: NextFunction) => {
     let { name, email, password } = req.body;
 
@@ -40,6 +56,14 @@ const create = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+/**
+ * Handle user read requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const read = (req: Request, res: Response, next: NextFunction) => {
     return User.sync().then(() => {
         return User.findByPk(req.params.id)
@@ -61,6 +85,14 @@ const read = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+/**
+ * Handle user update requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const update = (req: Request, res: Response, next: NextFunction) => {
     return User.findByPk(req.params.id)
         .then(user => {
@@ -83,6 +115,14 @@ const update = (req: Request, res: Response, next: NextFunction) => {
         })
 };
 
+/**
+ * Handle user delete requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const destroy = (req: Request, res: Response, next: NextFunction) => {
     return User.findByPk(req.params.id)
         .then(user => {

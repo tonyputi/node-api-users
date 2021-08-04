@@ -5,6 +5,14 @@ import jwt from 'jsonwebtoken';
 import User from '../../models/postgres/user';
 import config from "../../config/config";
 
+/**
+ * Handle user login requests
+ * 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Response}
+ */
 const login = (req: Request, res: Response, next: NextFunction) => {
     let { email, password } = req.body;    
 

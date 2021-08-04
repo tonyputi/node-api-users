@@ -9,6 +9,73 @@ The purpose of the assignement is just to create a bunch of APIs to proof the le
 I'm pretty sure that there are several other libraries that can accomplish the job much better but here I'm just
 taking care about the code style, the quality of the code and the organization in the whole view. 
 
+```
+.
+├── docker-compose.yml
+├── Dockerfile
+├── .dockerignore
+├── .env
+├── .gitignore
+├── LICENSE
+├── Makefile
+├── nodemon.js
+├── package.json
+├── package-lock.json
+├── postman_collection.json
+├── README.md
+├── src
+│   ├── config
+│   │   └── config.ts
+│   ├── controllers
+│   │   ├── mongo
+│   │   │   ├── auth.ts
+│   │   │   └── user.ts
+│   │   └── postgres
+│   │       ├── auth.ts
+│   │       └── user.ts
+│   ├── .gitignore
+│   ├── index.ts
+│   ├── interfaces
+│   │   └── user.ts
+│   ├── middlewares
+│   │   └── authenticated.ts
+│   ├── models
+│   │   ├── mongo
+│   │   │   └── user.ts
+│   │   └── postgres
+│   │       └── user.ts
+│   └── routes
+│       ├── mongo
+│       │   ├── auth.ts
+│       │   └── user.ts
+│       └── postgres
+│           ├── auth.ts
+│           └── user.ts
+└── tsconfig.json
+```
+
+The application is making use the following frameworks/libraries:
+
+- [Expressjs](https://expressjs.com) to handle HTTP requests to api endpoints;
+- [Mongoose](https://mongoosejs.com) to interact with mongodb;
+- [Sequelize](https://sequelize.org) to interact with postgres;
+- [node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js) to hash user password;
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) to generate and verify jwt tokens.
+- [Docker](https://docs.docker.com) to generate and verify jwt tokens.
+
+## Requirements
+
+- Docker
+- Docker Compose
+- Make
+
+## Installation
+
+1. Type `make build` to build the docker image
+2. Type `make up` to start the docker containers and wait few seconds to let containers proper start
+
+## Testing the application
+
 The application is serving two endpoint groups: `mongo` and `postres` so if you wanna try to create a new user into the 
 mongo db you have to prefix your request url like `http://localhost/mongo/`.
 
@@ -25,26 +92,6 @@ mongo db you have to prefix your request url like `http://localhost/mongo/`.
 | PUT    | http://localhost/postgres/:id | Update user detail from postgres       |
 | DELETE | http://localhost/postgres/:id | Delete user from postgres              |
 
-The application is making use the following frameworks/libraries:
-
-- [Expressjs](https://expressjs.com) to handle HTTP requests to api endpoints;
-- [Mongoose](https://mongoosejs.com) to interact with mongodb;
-- [Sequelize](https://sequelize.org) to interact with postgres;
-- [node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js) to hash user password;
-- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) to generate and verify jwt tokens.
-
-## Requirements
-
-- Docker
-- Docker Compose
-- Make
-
-## Installation
-
-1. Type `make build` to build the docker image
-2. Type `make up` to start the docker containers and wait few seconds to let containers proper start
-
-## Testing the application
 
 In order to test the application you need to be able to make request to the microservice and to accomplish this you can 
 find a `postman_collection.json` file that already contain all the request to make you able to test it.
@@ -68,3 +115,9 @@ if (responseCode.code === 200) {
 - `make clean` remove unused docker layers.
 
 ## Known issue and improvements
+
+- Unit tests;
+- HTTP tests;
+- Migrations;
+- Factories;
+- Seeders;
