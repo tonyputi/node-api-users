@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>node-api-users</title>
+	<meta name="description" content="Documentation for node-api-users">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">node-api-users</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>node-api-users</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#node-api-users" id="node-api-users" style="color: inherit; text-decoration: none;">
+					<h1>Node API users</h1>
+				</a>
+				<a href="#preface" id="preface" style="color: inherit; text-decoration: none;">
+					<h2>Preface</h2>
+				</a>
+				<p>Welcome to the users microservice.
+				This microservice is exposing a bunch of endpoints to interact with users.</p>
+				<p>The purpose of the assignement is just to create a bunch of APIs to proof the level of knowledge designing REST API.
+					I&#39;m pretty sure that there are several other libraries that can accomplish the job much better but here I&#39;m just
+				taking care about the code style, the quality of the code and the organization in the whole view. </p>
+				<pre><code><span style="color: #000000">.</span>
+<span style="color: #000000">├── </span><span style="color: #001080">docker</span><span style="color: #000000">-</span><span style="color: #001080">compose</span><span style="color: #000000">.</span><span style="color: #001080">yml</span>
+<span style="color: #000000">├── </span><span style="color: #001080">Dockerfile</span>
+<span style="color: #000000">├── .</span><span style="color: #001080">dockerignore</span>
+<span style="color: #000000">├── .</span><span style="color: #001080">env</span>
+<span style="color: #000000">├── .</span><span style="color: #001080">gitignore</span>
+<span style="color: #000000">├── </span><span style="color: #0070C1">LICENSE</span>
+<span style="color: #000000">├── </span><span style="color: #001080">Makefile</span>
+<span style="color: #000000">├── </span><span style="color: #001080">nodemon</span><span style="color: #000000">.</span><span style="color: #001080">js</span>
+<span style="color: #000000">├── </span><span style="color: #001080">package</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+<span style="color: #000000">├── </span><span style="color: #AF00DB">package</span><span style="color: #000000">-</span><span style="color: #001080">lock</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+<span style="color: #000000">├── </span><span style="color: #001080">postman_collection</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+<span style="color: #000000">├── </span><span style="color: #0070C1">README</span><span style="color: #000000">.</span><span style="color: #001080">md</span>
+<span style="color: #000000">├── </span><span style="color: #001080">src</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">config</span>
+<span style="color: #000000">│   │   └── </span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">controllers</span>
+<span style="color: #000000">│   │   ├── </span><span style="color: #001080">mongo</span>
+<span style="color: #000000">│   │   │   ├── </span><span style="color: #001080">auth</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   │   │   └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   │   └── </span><span style="color: #001080">postgres</span>
+<span style="color: #000000">│   │       ├── </span><span style="color: #001080">auth</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   │       └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   ├── .</span><span style="color: #001080">gitignore</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">index</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">interfaces</span>
+<span style="color: #000000">│   │   └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">middlewares</span>
+<span style="color: #000000">│   │   └── </span><span style="color: #001080">authenticated</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   ├── </span><span style="color: #001080">models</span>
+<span style="color: #000000">│   │   ├── </span><span style="color: #001080">mongo</span>
+<span style="color: #000000">│   │   │   └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   │   └── </span><span style="color: #001080">postgres</span>
+<span style="color: #000000">│   │       └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│   └── </span><span style="color: #001080">routes</span>
+<span style="color: #000000">│       ├── </span><span style="color: #001080">mongo</span>
+<span style="color: #000000">│       │   ├── </span><span style="color: #001080">auth</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│       │   └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│       └── </span><span style="color: #001080">postgres</span>
+<span style="color: #000000">│           ├── </span><span style="color: #001080">auth</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">│           └── </span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">ts</span>
+<span style="color: #000000">└── </span><span style="color: #001080">tsconfig</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+</code></pre>
+				<p>The application is making use the following frameworks/libraries:</p>
+				<ul>
+					<li><a href="https://expressjs.com">Expressjs</a> to handle HTTP requests to api endpoints;</li>
+					<li><a href="https://mongoosejs.com">Mongoose</a> to interact with mongodb;</li>
+					<li><a href="https://sequelize.org">Sequelize</a> to interact with postgres;</li>
+					<li><a href="https://github.com/kelektiv/node.bcrypt.js">node.bcrypt.js</a> to hash user password;</li>
+					<li><a href="https://github.com/auth0/node-jsonwebtoken">jsonwebtoken</a> to generate and verify jwt tokens.</li>
+					<li><a href="https://docs.docker.com">Docker</a> to generate and verify jwt tokens.</li>
+				</ul>
+				<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
+					<h2>Requirements</h2>
+				</a>
+				<ul>
+					<li>Docker</li>
+					<li>Docker Compose</li>
+					<li>Make</li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<ol>
+					<li>Type <code>make build</code> to build the docker image</li>
+					<li>Type <code>make up</code> to start the docker containers and wait few seconds to let containers proper start</li>
+				</ol>
+				<a href="#testing-the-application" id="testing-the-application" style="color: inherit; text-decoration: none;">
+					<h2>Testing the application</h2>
+				</a>
+				<p>The application is serving two endpoint groups: <code>mongo</code> and <code>postres</code> so if you wanna try to create a new user into the
+				mongo db you have to prefix your request url like <code>http://localhost/mongo/</code>.</p>
+				<table>
+					<thead>
+						<tr>
+							<th>METHOD</th>
+							<th>URI</th>
+							<th>DESCRIPTION</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>GET</td>
+							<td><a href="http://localhost/mongo/">http://localhost/mongo/</a></td>
+							<td>Get all the users stored into mongodb</td>
+						</tr>
+						<tr>
+							<td>POST</td>
+							<td><a href="http://localhost/mongo/">http://localhost/mongo/</a></td>
+							<td>Create a new user into mongodb</td>
+						</tr>
+						<tr>
+							<td>GET</td>
+							<td><a href="http://localhost/mongo/:id">http://localhost/mongo/:id</a></td>
+							<td>Get user detail from mongodb</td>
+						</tr>
+						<tr>
+							<td>PUT</td>
+							<td><a href="http://localhost/mongo/:id">http://localhost/mongo/:id</a></td>
+							<td>Update user detail from mongodb</td>
+						</tr>
+						<tr>
+							<td>DELETE</td>
+							<td><a href="http://localhost/mongo/:id">http://localhost/mongo/:id</a></td>
+							<td>Delete user from mongodb</td>
+						</tr>
+						<tr>
+							<td>GET</td>
+							<td><a href="http://localhost/postgres/">http://localhost/postgres/</a></td>
+							<td>Get all the users stored into postgres</td>
+						</tr>
+						<tr>
+							<td>POST</td>
+							<td><a href="http://localhost/postgres/">http://localhost/postgres/</a></td>
+							<td>Create a new user into postgres</td>
+						</tr>
+						<tr>
+							<td>GET</td>
+							<td><a href="http://localhost/postgres/:id">http://localhost/postgres/:id</a></td>
+							<td>Get user detail from postgres</td>
+						</tr>
+						<tr>
+							<td>PUT</td>
+							<td><a href="http://localhost/postgres/:id">http://localhost/postgres/:id</a></td>
+							<td>Update user detail from postgres</td>
+						</tr>
+						<tr>
+							<td>DELETE</td>
+							<td><a href="http://localhost/postgres/:id">http://localhost/postgres/:id</a></td>
+							<td>Delete user from postgres</td>
+						</tr>
+				</tbody></table>
+				<p>In order to test the application you need to be able to make request to the microservice and to accomplish this you can
+					find a <code>postman_collection.json</code> file that already contain all the request to make you able to test it.
+					I suggest to you to add the following test script to all yours <code>login</code> api request in order to save the <code>token</code> as variable
+				inside your postman collection and use it for all subsequents calls:</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">responseCode</span><span style="color: #000000">.</span><span style="color: #001080">code</span><span style="color: #000000"> === </span><span style="color: #098658">200</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000"> = </span><span style="color: #001080">pm</span><span style="color: #000000">.</span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #795E26">json</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #001080">pm</span><span style="color: #000000">.</span><span style="color: #001080">collectionVariables</span><span style="color: #000000">.</span><span style="color: #795E26">set</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;token&#039;</span><span style="color: #000000">, </span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #001080">token</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<a href="#available-make-commands-list" id="available-make-commands-list" style="color: inherit; text-decoration: none;">
+					<h2>Available <code>make</code> commands list</h2>
+				</a>
+				<ul>
+					<li><code>make build</code> build new docker image and clean everything after;</li>
+					<li><code>make up</code> start the containers;</li>
+					<li><code>make down</code> stop the containers;</li>
+					<li><code>make restart</code> restart the containers;</li>
+					<li><code>make shell</code> start new shell within the app container;</li>
+					<li><code>make clean</code> remove unused docker layers.</li>
+				</ul>
+				<a href="#known-issue-and-improvements" id="known-issue-and-improvements" style="color: inherit; text-decoration: none;">
+					<h2>Known issue and improvements</h2>
+				</a>
+				<ul>
+					<li>Unit tests;</li>
+					<li>HTTP tests;</li>
+					<li>Migrations;</li>
+					<li>Factories;</li>
+					<li>Seeders;</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/config_config.html">config/config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_mongo_auth.html">controllers/mongo/auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_mongo_user.html">controllers/mongo/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_postgres_auth.html">controllers/postgres/auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_postgres_user.html">controllers/postgres/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/interfaces_user.html">interfaces/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/middlewares_authenticated.html">middlewares/authenticated</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/models_mongo_user.html">models/mongo/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/models_postgres_user.html">models/postgres/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/routes_mongo_auth.html">routes/mongo/auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/routes_mongo_user.html">routes/mongo/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/routes_postgres_auth.html">routes/postgres/auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/routes_postgres_user.html">routes/postgres/user</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/routes_routes.html">routes/routes</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

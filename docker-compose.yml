@@ -11,9 +11,8 @@ services:
         restart: unless-stopped
         working_dir: /app
         volumes:
-            - ./src:/app/src
-            - ./package.json:/app/package.json
-            - ./package-lock.json:/app/package-lock.json
+            - node-api-modules:/app/node_modules
+            - ./:/app
         ports:
             - '${HTTP_PORT:-8080}:80'
         depends_on: ['mongodb', 'postgres']
@@ -44,6 +43,9 @@ services:
             timeout: 5s
 
 volumes:
+    node-api-modules:
+        name: node-api-modules
+        driver: local
     node-api-mongodb:
         name: node-api-mongodb
         driver: local

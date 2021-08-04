@@ -7,10 +7,10 @@ import User from '../../models/mongo/user';
 /**
  * Handle user index requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const index = (req: Request, res: Response, next: NextFunction) => {
     User.find()
@@ -33,10 +33,10 @@ const index = (req: Request, res: Response, next: NextFunction) => {
 /**
  * Handle user create requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const create = (req: Request, res: Response, next: NextFunction) => {
     let { name, email, password } = req.body;
@@ -62,10 +62,10 @@ const create = (req: Request, res: Response, next: NextFunction) => {
 /**
  * Handle user read requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const read = (req: Request, res: Response, next: NextFunction) => {
     return User.findById(req.params.id)
@@ -89,10 +89,10 @@ const read = (req: Request, res: Response, next: NextFunction) => {
 /**
  * Handle user update requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const update = (req: Request, res: Response, next: NextFunction) => {
     return User.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, user) => {
@@ -116,26 +116,26 @@ const update = (req: Request, res: Response, next: NextFunction) => {
 /**
  * Handle user delete requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const destroy = (req: Request, res: Response, next: NextFunction) => {
-    return User.findByIdAndRemove(req.params.id, (error, user) => {
-        if (!user) {
-            return res.status(404).json({message: 'not found'})
-        }
+    return User.findByIdAndRemove(req.params.id)
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({message: 'not found'})
+            }
 
-        if (error) {
+            return res.sendStatus(204);
+        })
+        .catch(error => {
             return res.status(500).json({
                 message: error.message,
                 error
             });
-        }
-
-        return res.status(204).send();
-    });
+        });
 };
 
 export default { index, create, read, update, destroy };

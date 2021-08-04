@@ -38,8 +38,8 @@ const UserSchema: Schema = new Schema({
  * @param {string} password - the password that must be checked
  * @return {boolean}
  */
-UserSchema.method('checkPassword', function (password: string) : boolean {
-  return bcrypt.compareSync(password, this.password);
+UserSchema.method('checkPassword', async function (password: string) : Promise<boolean> {
+  return await bcrypt.compareSync(password, this.get('password'));
 });
 
 export default model<IUser>('User', UserSchema);

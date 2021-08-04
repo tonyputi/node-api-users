@@ -25,8 +25,13 @@ init:
 	@docker exec -u www-data $(CONTAINER) cp .env.example .env
 	@docker exec -u www-data $(CONTAINER) npm install
 
-test:
+tests:
 	$(info Make: Starting environment tests.)
+	$(info Not yet implemented)
+
+docs:
+	$(info Make: Build code documentation.)
+	@docker exec -u node $(CONTAINER) npx typedoc --out docs src/index.ts
 
 shell:
 	$(info Make: Starting environment shell.)

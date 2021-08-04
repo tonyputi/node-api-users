@@ -48,7 +48,7 @@ const SERVER = {
 };
 
 const JWT = {
-    secret: 'your-very-strong-secret'
+    secret: process.env.JWT_SECRET || 'your-very-strong-secret'
 }
 
 const config = {

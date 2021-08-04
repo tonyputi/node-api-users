@@ -19,6 +19,15 @@ import routes from "./routes/routes"
  * App Variables
  */
 
+/** Extending express in order to have user as property on the request */
+declare global {
+    namespace Express {
+        interface Request {
+            user: Object
+        }
+    }
+}
+
 const app = express();
 const sequelize = new Sequelize(config.postgres.uri);
 
@@ -64,6 +73,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 /** Registering application routes */
 app.use('/', routes);
 
+/** Start server listening */
 app.listen(config.server.port, () => {
     console.info(`Server is running ${config.server.hostname}:${config.server.port}`);
 });

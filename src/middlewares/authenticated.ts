@@ -4,6 +4,9 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from "../config/config";
 
+/**
+ * Middleware used to protect restricted routes
+ */
 export default (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers['authorization'];
 

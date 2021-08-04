@@ -8,10 +8,10 @@ import config from "../../config/config";
 /**
  * Handle user login requests
  * 
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- * @return {Response}
+ * @param req
+ * @param res
+ * @param next
+ * @return response
  */
 const login = (req: Request, res: Response, next: NextFunction) => {
     let { email, password } = req.body;
